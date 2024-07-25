@@ -16,5 +16,24 @@ namespace NguenAiDan_project1
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SchoolDb;Trusted_Connection=True;");
         }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Grade)
+                .WithMany(g => g.Students)
+                .HasForeignKey(s => s.GradeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+
+            modelBuilder.Entity<Grade>()
+                .ToTable("Grades");
+
+            modelBuilder.Entity<Student>()
+                .ToTable("Students");
+        }
+      
     }
 }
